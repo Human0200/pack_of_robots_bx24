@@ -1,5 +1,6 @@
 <?php
 require_once 'crest.php';
+
 // Настройка логирования
 function logToFile($data)
 {
@@ -43,7 +44,7 @@ $eventToken = isset($data['event_token']) ? $data['event_token'] : null;
 function convertFieldCode($fieldCode)
 {
     if (preg_match('/^UF_CRM_(_?\d+)(?:_(\d+))?$/', $fieldCode, $matches)) {
-        $result = 'ufCrm_' . $matches[1]; // Всегда добавляем подчеркивание после ufCrm
+        $result = 'ufCrm_' . $matches[1];
         if (!empty($matches[2])) {
             $result .= '_' . $matches[2];
         }
@@ -51,9 +52,10 @@ function convertFieldCode($fieldCode)
     }
     return $fieldCode;
 }
-if($entity_type == 'smart_process')
-  $field_code = convertFieldCode($field_code);
 
+if($entity_type == 'smart_process') {
+    $field_code = convertFieldCode($field_code);
+}
 
 // Функция вызова Bitrix24 API
 function callB24Api($method, $params, $access_token, $domain)
@@ -150,7 +152,6 @@ function isFieldMultiple($entity_type, $field_code, $smart_process_id, $access_t
         return false;
     }
 
-    // ИСПРАВЛЕНИЕ: согласно документации, поля находятся в result.fields
     if (!isset($fieldsResult['result']['fields'])) {
         logToFile(['fields_structure_error' => 'Нет ключа fields в result', 'result_structure' => array_keys($fieldsResult['result'])]);
         return false;
@@ -158,7 +159,6 @@ function isFieldMultiple($entity_type, $field_code, $smart_process_id, $access_t
 
     $fields = $fieldsResult['result']['fields'];
 
-    // Проверяем, что fields - массив
     if (!is_array($fields)) {
         logToFile(['fields_not_array' => 'Поля не являются массивом', 'fields_type' => gettype($fields)]);
         return false;
@@ -174,29 +174,24 @@ function isFieldMultiple($entity_type, $field_code, $smart_process_id, $access_t
     // Детальная проверка признаков множественности
     $isMultiple = false;
 
-    // Основные признаки множественного поля в Bitrix24
     if (isset($fieldInfo['isMultiple'])) {
         if ($fieldInfo['isMultiple'] === true || $fieldInfo['isMultiple'] === 'Y' || $fieldInfo['isMultiple'] == 1) {
             $isMultiple = true;
         }
     }
 
-    // Дополнительные проверки
     if (isset($fieldInfo['multiple'])) {
         if ($fieldInfo['multiple'] === true || $fieldInfo['multiple'] === 'Y' || $fieldInfo['multiple'] == 1) {
             $isMultiple = true;
         }
     }
 
-    // Для файловых полей проверяем тип
     if (isset($fieldInfo['type']) && $fieldInfo['type'] === 'file') {
-        // Если это файловое поле и есть признаки множественности
         if (isset($fieldInfo['isMultiple']) && $fieldInfo['isMultiple']) {
             $isMultiple = true;
         }
     }
 
-    // Логируем детальную информацию о поле
     logToFile([
         'field_detailed_check' => [
             'field_code' => $field_code,
@@ -254,27 +249,24 @@ function updateEntity($entity_type, $entity_id, $field_code, $fileIds, $smart_pr
 
     // Определяем формат передачи файлов на основе типа поля
     if ($isMultiple) {
-        // Для множественных полей всегда передаем массив (даже если файл один)
         $fieldValue = $fileValues;
-        // Убрано лишнее логирование формата поля
     } else {
-        // Для одиночных полей берем только первый файл
         $fieldValue = $fileValues[0];
         if (count($fileValues) > 1) {
             logToFile(['warning' => 'Множественные файлы для одиночного поля, берем только первый', 'files_count' => count($fileValues)]);
         }
-        // Убрано лишнее логирование взятого файла
     }
-    // $field_code = "ufCrm1758796871250";
+
     $params = [
         'id' => $entity_id,
         'fields' => [
             $field_code => $fieldValue
         ]
     ];
+
     logToFile('ТИП СУЩНОСТИ ДЛЯ ОБНОВЛЕНИЯ: ' . $entity_type);
+    
     $method = 'crm.item.update';
-    // Определяем метод API в зависимости от типа сущности
     switch ($entity_type) {
         case 'lead':
             $method = 'crm.lead.update';
@@ -300,35 +292,9 @@ function updateEntity($entity_type, $entity_id, $field_code, $fileIds, $smart_pr
             return false;
     }
 
-    // Убрано лишнее логирование запроса обновления
-
-    // $result = callB24Api($method, $params, $access_token, $domain);
     $result = callB24Api($method, $params, $access_token, $domain);
-    // $test = CRest::call('crm.item.update', [
-    //     'entityTypeId' => 2,
-    //     'id' => 2,
-    //     'fields' => [
-    //         'title' => "REST Сделка #1",
-    //         'UF_CRM_1758796871250' => [
-    //             [
-    //                 'fileData' => [
-    //                     'test.txt',
-    //                     base64_encode('Hello, World!')
-    //                 ]
-    //             ],
-    //             [
-    //                 'fileData' => [
-    //                     'test2.txt',
-    //                     base64_encode('Hello, World 2!')
-    //                 ]
-    //             ]
-    //         ],
-    //     ]
-    // ]);
-    //file_put_contents(__DIR__ . '/last_entity_update_request.json', json_encode($test, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
-    // file_put_contents(__DIR__ . '/last_entity_update_response.json', json_encode($result, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
-    if ($result && isset($result['result'])) {
 
+    if ($result && isset($result['result'])) {
         return true;
     } else {
         logToFile(['entity_update_error' => $result]);
@@ -355,6 +321,30 @@ function sendBizprocResult($eventToken, $returnValues, $access_token, $domain)
     );
 }
 
+// Функция для получения самого последнего результата по дате создания
+function getLatestResult($results)
+{
+    if (empty($results)) {
+        return null;
+    }
+
+    $latestResult = null;
+    $latestTimestamp = 0;
+
+    foreach ($results as $result) {
+        if (isset($result['createdAt'])) {
+            $timestamp = strtotime($result['createdAt']);
+            if ($timestamp > $latestTimestamp) {
+                $latestTimestamp = $timestamp;
+                $latestResult = $result;
+            }
+        }
+    }
+
+    // Если не нашли по createdAt, берем последний элемент массива
+    return $latestResult ?: end($results);
+}
+
 try {
     // 1. Получаем данные задачи
     $task = callB24Api("tasks.task.get", ['taskId' => $task_id], $access_token, $domain);
@@ -374,84 +364,82 @@ try {
     }
 
     $taskData = $task['result']['task'];
-    // Убрано лишнее логирование
+    logToFile("Получена задача #{$task_id}: " . $taskData['title']);
 
-    // 2. Получаем результаты задачи
+    // 2. Получаем все результаты задачи
     $taskResults = callB24Api("tasks.task.result.list", ['taskId' => $task_id], $access_token, $domain);
+    
     if (!$taskResults || !isset($taskResults['result'])) {
         logToFile("Предупреждение: Не удалось получить результаты задачи #{$task_id}");
         $taskResults = ['result' => []];
     }
 
     $results = $taskResults['result'];
-    // Убрано лишнее логирование количества результатов
+    logToFile("Найдено результатов задачи: " . count($results));
 
-    // 3. Обрабатываем результаты
+    // 3. Обрабатываем результаты - находим самый последний
     $fileIds = [];
     $textResult = '';
 
-if (!empty($results)) {
-    // Берем последний результат вместо первого
-    $result = end($results);
-    
-    // Если нужно сбросить внутренний указатель массива, можно использовать:
-    // $result = $results[count($results) - 1];
-
-    // Получаем файлы
-    if (!empty($result['files']) && is_array($result['files'])) {
-        $fileIds = $result['files'];
-        // Убрано лишнее логирование оригинальных ID
-
+    if (!empty($results)) {
+        // Находим самый последний результат по дате создания
+        $result = getLatestResult($results);
         
-        if (!empty($result['commentId'])) {
-            $commentInfo = callB24Api("task.commentitem.get", [
-                'TASKID' => $task_id,
-                'ITEMID' => $result['commentId']
-            ], $access_token, $domain);
+        logToFile("Обрабатываем последний результат задачи (ID: " . $result['ID'] . ", дата: " . ($result['createdAt'] ?? 'не указана') . ")");
 
-            // Убрано лишнее логирование запроса комментария
+        // Получаем файлы
+        if (!empty($result['files']) && is_array($result['files'])) {
+            $fileIds = $result['files'];
+            logToFile("Найдены файлы в результате: " . implode(', ', $fileIds));
 
-            if ($commentInfo && isset($commentInfo['result']['ATTACHED_OBJECTS'])) {
-                // Убрано лишнее логирование найденных объектов
+            // Получаем реальные FILE_ID из комментария
+            if (!empty($result['commentId'])) {
+                $commentInfo = callB24Api("task.commentitem.get", [
+                    'TASKID' => $task_id,
+                    'ITEMID' => $result['commentId']
+                ], $access_token, $domain);
 
-                $realFileIds = [];
-                foreach ($commentInfo['result']['ATTACHED_OBJECTS'] as $attachedFile) {
-                    if (isset($attachedFile['FILE_ID'])) {
-                        $realFileIds[] = $attachedFile['FILE_ID']; // Добавляем реальный FILE_ID
+                if ($commentInfo && isset($commentInfo['result']['ATTACHED_OBJECTS'])) {
+                    $realFileIds = [];
+                    foreach ($commentInfo['result']['ATTACHED_OBJECTS'] as $attachedFile) {
+                        if (isset($attachedFile['FILE_ID'])) {
+                            $realFileIds[] = $attachedFile['FILE_ID'];
+                        }
                     }
-                }
 
-                if (!empty($realFileIds)) {
-                    $fileIds = $realFileIds;
-                    // Убрано лишнее логирование замены ID
+                    if (!empty($realFileIds)) {
+                        $fileIds = $realFileIds;
+                        logToFile("Заменены на реальные FILE_ID: " . implode(', ', $fileIds));
+                    } else {
+                        logToFile(['no_file_ids_in_attached_objects' => 'FILE_ID не найден в ATTACHED_OBJECTS']);
+                    }
                 } else {
-                    logToFile(['no_file_ids_in_attached_objects' => 'FILE_ID не найден в ATTACHED_OBJECTS']);
+                    logToFile(['comment_debug' => [
+                        'comment_info_exists' => isset($commentInfo),
+                        'has_result' => isset($commentInfo['result']),
+                        'has_attached_objects' => isset($commentInfo['result']['ATTACHED_OBJECTS']),
+                        'comment_response' => $commentInfo
+                    ]]);
                 }
             } else {
-                logToFile(['comment_debug' => [
-                    'comment_info_exists' => isset($commentInfo),
-                    'has_result' => isset($commentInfo['result']),
-                    'has_attached_objects' => isset($commentInfo['result']['ATTACHED_OBJECTS']),
-                    'comment_response' => $commentInfo
-                ]]);
+                logToFile(['no_comment_id' => 'commentId отсутствует в результате задачи']);
             }
-        } else {
-            logToFile(['no_comment_id' => 'commentId отсутствует в результате задачи']);
         }
 
-        // Убрано лишнее логирование финальных ID файлов
+        // Получаем текстовый результат
+        if (!empty($result['text'])) {
+            $textResult = $result['text'];
+            logToFile("Текстовый результат: " . substr($textResult, 0, 100) . "...");
+        }
+    } else {
+        logToFile("Нет результатов у задачи #{$task_id}");
     }
-
-    // Получаем текстовый результат
-    if (!empty($result['text'])) {
-        $textResult = $result['text'];
-        // Убрано лишнее логирование текстового результата
-    }
-}
 
     // 4. Записываем файлы в сущность, если есть файлы
     $entityUpdateSuccess = false;
     if (!empty($fileIds)) {
+        logToFile("Начинаем запись " . count($fileIds) . " файлов в сущность {$entity_type}#{$entity_id}");
+        
         $entityUpdateSuccess = updateEntity(
             $entity_type,
             $entity_id,
@@ -461,6 +449,8 @@ if (!empty($results)) {
             $access_token,
             $domain
         );
+        
+        logToFile("Результат обновления сущности: " . ($entityUpdateSuccess ? 'УСПЕХ' : 'ОШИБКА'));
     } else {
         logToFile('Нет файлов для записи в сущность');
         $entityUpdateSuccess = true; // Считаем успешным, если нет файлов
@@ -490,7 +480,7 @@ if (!empty($results)) {
         'entity_updated' => $entityUpdateSuccess
     ];
 
-    // Убрано лишнее логирование успеха
+    logToFile("Финальный ответ: " . json_encode($response));
     echo json_encode($response);
 } catch (Exception $e) {
     // Обработка исключений
