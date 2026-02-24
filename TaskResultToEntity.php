@@ -196,39 +196,76 @@ function isFieldMultiple($entity_type, $field_code, $smart_process_id, $access_t
     $fieldInfo = null;
     $actualFieldCode = null;
     
-    // Варианты для поиска
+    // Варианты для поиска - начинаем с исходного кода
     $fieldVariants = [$field_code];
     
-    // UF_CRM_1765348255314 -> ufCrm_1765348255314
+    // Преобразование UF_CRM_* -> ufCrm_*
     if (preg_match('/^UF_CRM_(_?\d+)(?:_(\d+))?$/i', $field_code, $matches)) {
         $variant = 'ufCrm_' . $matches[1];
         if (!empty($matches[2])) {
             $variant .= '_' . $matches[2];
         }
         $fieldVariants[] = $variant;
+        
+        // Дополнительный вариант без подчеркивания после цифры (для случая ufCrm7_... вместо ufCrm_7_...)
+        $variantWithoutExtraUnderscore = 'ufCrm' . $matches[1];
+        if (!empty($matches[2])) {
+            $variantWithoutExtraUnderscore .= '_' . $matches[2];
+        }
+        $fieldVariants[] = $variantWithoutExtraUnderscore;
     }
     
-    // ufCrm_1765348255314 -> UF_CRM_1765348255314
+    // Преобразование ufCrm_* -> UF_CRM_*
     if (preg_match('/^ufCrm_(_?\d+)(?:_(\d+))?$/i', $field_code, $matches)) {
         $variant = 'UF_CRM_' . $matches[1];
         if (!empty($matches[2])) {
             $variant .= '_' . $matches[2];
         }
         $fieldVariants[] = $variant;
+        
+        // Дополнительный вариант ufCrm7_... (без подчеркивания после ufCrm)
+        $variantWithoutUnderscore = 'ufCrm' . $matches[1];
+        if (!empty($matches[2])) {
+            $variantWithoutUnderscore .= '_' . $matches[2];
+        }
+        $fieldVariants[] = $variantWithoutUnderscore;
     }
+    
+    // Если это уже ufCrm7_... (без подчеркивания), добавим вариант с подчеркиванием
+    if (preg_match('/^ufCrm(\d+)(?:_(\d+))?$/i', $field_code, $matches)) {
+        $variantWithUnderscore = 'ufCrm_' . $matches[1];
+        if (!empty($matches[2])) {
+            $variantWithUnderscore .= '_' . $matches[2];
+        }
+        $fieldVariants[] = $variantWithUnderscore;
+        
+        // UF_CRM вариант
+        $variantUF = 'UF_CRM_' . $matches[1];
+        if (!empty($matches[2])) {
+            $variantUF .= '_' . $matches[2];
+        }
+        $fieldVariants[] = $variantUF;
+    }
+    
+    // Убираем дубликаты
+    $fieldVariants = array_unique($fieldVariants);
     
     // Пробуем найти поле по всем вариантам
     foreach ($fieldVariants as $variant) {
         if (isset($fields[$variant])) {
             $fieldInfo = $fields[$variant];
             $actualFieldCode = $variant;
-            logToFile(['field_found_as' => $variant, 'original_was' => $field_code]);
+            logToFile(['field_found_as' => $variant, 'original_was' => $field_code, 'tried_variants' => $fieldVariants]);
             break;
         }
     }
     
     if (!$fieldInfo) {
-        logToFile(['field_not_found' => $field_code, 'tried_variants' => $fieldVariants, 'available_fields' => array_keys($fields)]);
+        logToFile([
+            'field_not_found' => $field_code, 
+            'tried_variants' => $fieldVariants, 
+            'available_fields' => array_keys($fields)
+        ]);
         return false;
     }
 

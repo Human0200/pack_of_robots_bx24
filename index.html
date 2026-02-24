@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <title>📋 Запись результата задачи - Робот для Bitrix24</title>
@@ -9,7 +10,7 @@
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             line-height: 1.6;
@@ -18,7 +19,7 @@
             min-height: 100vh;
             padding: 20px;
         }
-        
+
         .container {
             max-width: 1000px;
             margin: 0 auto;
@@ -27,24 +28,24 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             overflow: hidden;
         }
-        
+
         header {
             background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
             color: white;
             padding: 30px;
             text-align: center;
         }
-        
+
         h1 {
             font-size: 2.5em;
             margin-bottom: 10px;
         }
-        
+
         .subtitle {
             font-size: 1.2em;
             opacity: 0.9;
         }
-        
+
         .controls {
             display: flex;
             gap: 15px;
@@ -53,7 +54,7 @@
             border-bottom: 1px solid #e9ecef;
             flex-wrap: wrap;
         }
-        
+
         .button-link {
             display: inline-flex;
             align-items: center;
@@ -69,34 +70,34 @@
             font-size: 14px;
             font-weight: 500;
         }
-        
+
         .button-link:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
-        
+
         .button-link:disabled {
             opacity: 0.6;
             cursor: not-allowed;
             transform: none;
         }
-        
+
         .support-button {
             background: linear-gradient(135deg, #fd746c 0%, #ff9068 100%);
         }
-        
+
         .install-button {
             background: linear-gradient(135deg, #00b09b 0%, #96c93d 100%);
         }
-        
+
         .delete-button {
             background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
         }
-        
+
         .robots-container {
             padding: 30px;
         }
-        
+
         .robot-group {
             background: #f8f9fa;
             border-radius: 12px;
@@ -104,7 +105,7 @@
             margin-bottom: 25px;
             border: 1px solid #e9ecef;
         }
-        
+
         .robot-header {
             display: flex;
             justify-content: space-between;
@@ -113,44 +114,44 @@
             flex-wrap: wrap;
             gap: 15px;
         }
-        
+
         .robot-header h3 {
             font-size: 1.5em;
             color: #2c3e50;
         }
-        
+
         .robot-status {
             padding: 8px 16px;
             border-radius: 20px;
             font-weight: 600;
             font-size: 14px;
         }
-        
+
         .robot-status.installed {
             background: #d4edda;
             color: #155724;
         }
-        
+
         .robot-status.not-installed {
             background: #f8d7da;
             color: #721c24;
         }
-        
+
         .robot-status.error {
             background: #fff3cd;
             color: #856404;
         }
-        
+
         .robot-status.checking {
             background: #d1ecf1;
             color: #0c5460;
         }
-        
+
         .robot-description {
             margin-bottom: 20px;
             line-height: 1.6;
         }
-        
+
         .robot-params {
             background: white;
             padding: 20px;
@@ -158,22 +159,23 @@
             margin-bottom: 20px;
             border: 1px solid #dee2e6;
         }
-        
+
         .robot-params strong {
             display: block;
             margin-bottom: 10px;
             color: #2c3e50;
         }
-        
-        .robot-params ul, .robot-params ol {
+
+        .robot-params ul,
+        .robot-params ol {
             margin-left: 20px;
             margin-bottom: 15px;
         }
-        
+
         .robot-params li {
             margin-bottom: 5px;
         }
-        
+
         .robot-params code {
             background: #f1f3f4;
             padding: 2px 6px;
@@ -181,27 +183,27 @@
             font-family: 'Courier New', monospace;
             font-size: 0.9em;
         }
-        
+
         .robot-actions {
             display: flex;
             gap: 15px;
             flex-wrap: wrap;
         }
-        
+
         footer {
             background: #2c3e50;
             padding: 20px;
             text-align: center;
             color: white;
         }
-        
+
         #image-container {
             position: fixed;
             bottom: 20px;
             right: 20px;
             z-index: 1000;
         }
-        
+
         #image-container img {
             width: 60px;
             height: 60px;
@@ -209,59 +211,63 @@
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
             transition: transform 0.3s ease;
         }
-        
+
         #image-container img:hover {
             transform: scale(1.1);
         }
-        
+
         .loading {
             display: inline-block;
             width: 20px;
             height: 20px;
-            border: 3px solid rgba(255,255,255,.3);
+            border: 3px solid rgba(255, 255, 255, .3);
             border-radius: 50%;
             border-top-color: #fff;
             animation: spin 1s ease-in-out infinite;
         }
-        
+
         @keyframes spin {
-            to { transform: rotate(360deg); }
+            to {
+                transform: rotate(360deg);
+            }
         }
-        
+
         @media (max-width: 768px) {
             .container {
                 margin: 10px;
                 border-radius: 10px;
             }
-            
+
             header {
                 padding: 20px;
             }
-            
+
             h1 {
                 font-size: 2em;
             }
-            
+
             .controls {
                 flex-direction: column;
             }
-            
+
             .robot-header {
                 flex-direction: column;
                 align-items: flex-start;
             }
-            
+
             .robot-actions {
                 flex-direction: column;
             }
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <header>
             <h1>📋 Запись результата задачи</h1>
-            <p class="subtitle">Копирует файлы и текст из результата задачи в CRM-сущность и возвращает данные в бизнес-процесс</p>
+            <p class="subtitle">Копирует файлы и текст из результата задачи в CRM-сущность и возвращает данные в
+                бизнес-процесс</p>
         </header>
 
         <div id="app-content">
@@ -288,22 +294,31 @@
                         <div class="robot-status" id="status-task">Проверка...</div>
                     </div>
                     <p class="robot-description">
-                        <strong>Назначение:</strong> Получает результат выполнения задачи (файлы и текст), записывает прикреплённые файлы в указанное поле CRM-сущности (лид, контакт, сделка, компания, смарт-процесс) и возвращает данные в бизнес-процесс для дальнейшей обработки.
+                        <strong>Назначение:</strong> Получает результат выполнения задачи (файлы и текст), записывает
+                        прикреплённые файлы в указанное поле CRM-сущности (лид, контакт, сделка, компания,
+                        смарт-процесс) и возвращает данные в бизнес-процесс для дальнейшей обработки.
                     </p>
                     <div class="robot-params">
                         <strong>Входные параметры:</strong>
                         <ul>
                             <li><code>task_id</code> — ID задачи</li>
-                            <li><code>entity_type</code> — Тип сущности: <code>lead</code>, <code>contact</code>, <code>company</code>, <code>deal</code>, <code>smart_process</code></li>
+                            <li><code>entity_type</code> — Тип сущности: <code>lead</code>, <code>contact</code>,
+                                <code>company</code>, <code>deal</code>, <code>smart_process</code>
+                            </li>
                             <li><code>entity_id</code> — ID элемента (лида, сделки и т.д.)</li>
-                            <li><code>field_code</code> — Код поля, в которое нужно записать файлы (например, <code>ufCrm_1757578212941</code>)</li>
-                            <li><code>smart_process_id</code> — ID типа смарт-процесса (обязательно при <code>entity_type = smart_process</code>)</li>
+                            <li><code>field_code</code> — Код поля, в которое нужно записать файлы (например,
+                                <code>ufCrm_1757578212941</code>)
+                            </li>
+                            <li><code>smart_process_id</code> — ID типа смарт-процесса (обязательно при
+                                <code>entity_type = smart_process</code>)
+                            </li>
                         </ul>
 
                         <strong>Что делает робот:</strong>
                         <ol>
                             <li>Получает результат последнего отчёта по задаче</li>
-                            <li>Извлекает прикреплённые файлы (включая реальные <code>FILE_ID</code> через комментарий)</li>
+                            <li>Извлекает прикреплённые файлы (включая реальные <code>FILE_ID</code> через комментарий)
+                            </li>
                             <li>Записывает ID файлов в указанное поле CRM-сущности</li>
                             <li>Сохраняет текстовый результат задачи</li>
                             <li>Возвращает данные в бизнес-процесс через <code>return_values</code></li>
@@ -336,421 +351,429 @@
             <p>© 2024 LeadSpace. Для работы требуется доступ к Bitrix24.</p>
             <div id="image-container">
                 <a href="https://lead-space.ru/" target="_blank">
-                    <img src="https://lead-space.ru/local/templates/main/upload/logo.svg" alt="Logo" onerror="this.style.display='none'">
+                    <img src="https://lead-space.ru/local/templates/main/upload/logo.svg" alt="Logo"
+                        onerror="this.style.display='none'">
                 </a>
             </div>
         </footer>
     </div>
-
-    <script src="https://api.bitrix24.com/api/v1/"></script>
+    <script src="lib/contact-form.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/Human0200/contact_form_lib@main/contact-form.js"></script>
     <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const robot = {
-        code: 'robot_task_result_to_entity',
-        name: 'Записать результат задачи в сущность (LeadSpace)',
-        handler: 'https://app.lead-space.ru/robot_find_file/TaskResultToEntity.php'
-    };
-
-    const statusEl = document.getElementById('status-task');
-    const createBtn = document.getElementById('createTaskResultButton');
-    const deleteBtn = document.getElementById('deleteTaskResultButton');
-    const listBtn = document.getElementById('ListRobots');
-    const checkBtn = document.getElementById('checkStatus');
-    const installLoading = document.getElementById('install-loading');
-    const installText = document.getElementById('install-text');
-    const deleteLoading = document.getElementById('delete-loading');
-    const deleteText = document.getElementById('delete-text');
-
-    let isAdmin = false;
-    let isInstalled = false;
-
-    // Функция для логирования отладочной информации
-    function debugLog(message, data = null) {
-       // console.log(message, data);
-        const debugContent = document.getElementById('debugContent');
-        if (debugContent) {
-            const debugInfo = document.getElementById('debugInfo');
-            debugInfo.style.display = 'block';
-            debugContent.innerHTML += `<div>${new Date().toLocaleTimeString()}: ${message}</div>`;
-            if (data) {
-                debugContent.innerHTML += `<pre>${JSON.stringify(data, null, 2)}</pre>`;
-            }
-        }
-    }
-
-    // Основная функция инициализации
-    async function initApp() {
-        try {
-            // Проверяем, доступен ли BX24
-            if (typeof BX24 === 'undefined') {
-                updateStatus('error', 'Bitrix24 API не загружен');
-                disableButtons();
-                showNotify('❌ Приложение должно запускаться внутри Bitrix24', 'error');
-                return;
-            }
-
-            //debugLog('Инициализация Bitrix24 API...');
-            // Инициализируем BX24
-            await initBX24();
-            
-            // Проверяем права администратора
-            isAdmin = await checkPermissions();
-            //debugLog('Права администратора:', isAdmin);
-            
-            if (!isAdmin) {
-                updateStatus('error', 'Требуются права администратора');
-                disableButtons();
-                return;
-            }
-
-            // Проверяем статус робота
-            await checkStatus();
-
-        } catch (error) {
-            console.error('Ошибка инициализации:', error);
-            //debugLog('Ошибка инициализации:', error);
-            updateStatus('error', 'Ошибка загрузки');
-            showNotify('❌ Ошибка инициализации: ' + error.message, 'error');
-        }
-    }
-
-    // Инициализация BX24
-    function initBX24() {
-        return new Promise((resolve, reject) => {
-            BX24.init(function() {
-                //debugLog('BX24 инициализирован успешно');
-                resolve();
+        document.addEventListener('DOMContentLoaded', function () {
+            const contactForm = new ContactFormLibrary({
+                apiEndpoint: 'https://app.lead-space.ru/api/Form.php'
             });
-        });
-    }
 
-    // Проверка прав доступа
-    async function checkPermissions() {
-        try {
-            const result = await callMethod('profile');
-            const user = result.data();
-            //debugLog('Профиль пользователя:', user);
-            return user.ADMIN;
-        } catch (error) {
-            console.error('Ошибка проверки прав:', error);
-            //debugLog('Ошибка проверки прав:', error);
-            return false;
-        }
-    }
+            contactForm.init();
 
-    // Проверка доступных методов
-    async function checkAvailableMethods() {
-        try {
-            //debugLog('Проверка доступных методов...');
-            
-            // Получаем информацию о портале
-            try {
-                const appInfo = await callMethod('app.info');
-                //debugLog('Информация о приложении:', appInfo.data());
-            } catch (e) {
-                //debugLog('app.info недоступен:', e.message);
-            }
-            
-            // Проверяем версию Bitrix24
-            try {
-                const portalInfo = await callMethod('user.current');
-                //debugLog('Информация о пользователе:', portalInfo.data());
-            } catch (e) {
-                //debugLog('user.current недоступен:', e.message);
-            }
-
-            // Проверяем доступность методов бизнес-процессов
-            try {
-                const methods = ['bizproc.robot.list', 'bizproc.robot.add', 'bizproc.activity.list'];
-                for (const method of methods) {
-                    try {
-                        await callMethod(method, {});
-                        debugLog(`Метод ${method} доступен`);
-                    } catch (e) {
-                        debugLog(`Метод ${method} недоступен:`, e.message);
-                    }
-                }
-            } catch (e) {
-                //debugLog('Ошибка проверки методов:', e);
-            }
-            
-        } catch (error) {
-            //debugLog('Не удалось получить дополнительную информацию:', error);
-        }
-    }
-
-    // Проверка статуса робота
-    async function checkStatus() {
-        try {
-            updateStatus('checking', 'Проверка...');
-            //debugLog('Проверка статуса робота...');
-            
-            // Сначала попробуем получить информацию о правах и методах
-            await checkAvailableMethods();
-            
-            const result = await callMethod('bizproc.robot.list');
-            const robots = result.data();
-            //debugLog('Список установленных роботов:', robots);
-            isInstalled = robots.includes(robot.code);
-            
-            updateStatus(isInstalled ? 'installed' : 'not-installed', 
-                        isInstalled ? 'Установлен' : 'Не установлен');
-            
-            enableButtons();
-            
-        } catch (error) {
-            console.error('Ошибка проверки статуса:', error);
-            //debugLog('Ошибка проверки статуса:', error);
-            
-            // Попробуем альтернативный способ проверки
-            await checkStatusAlternative();
-        }
-    }
-
-    // Альтернативная проверка статуса
-    async function checkStatusAlternative() {
-        try {
-            updateStatus('checking', 'Альтернативная проверка...');
-            //debugLog('Попытка альтернативной проверки...');
-            
-            // Попробуем получить список через bizproc.activity.list
-            try {
-                const result = await callMethod('bizproc.activity.list', {
-                    filter: { 'TYPE': 'RobotActivity' }
-                });
-                //debugLog('Доступные активности:', result.data());
-            } catch (activityError) {
-                //debugLog('bizproc.activity.list тоже недоступен:', activityError);
-            }
-            
-            // Или попробуем другой подход - создать тестовый запрос
-            isInstalled = false; // По умолчанию считаем не установленным
-            updateStatus('not-installed', 'Статус неизвестен (используйте установку)');
-            enableButtons();
-            
-        } catch (alternativeError) {
-            console.error('Альтернативная проверка тоже не удалась:', alternativeError);
-            //debugLog('Альтернативная проверка не удалась:', alternativeError);
-            updateStatus('error', 'Ошибка проверки методов');
-            showNotify('❌ Методы работы с роботами недоступны. Возможно, требуется другой тариф или версия Bitrix24', 'error');
-            enableButtons(); // Позволим попробовать установку
-        }
-    }
-
-    // Установить робота
-    createBtn.addEventListener('click', async function() {
-        if (!isAdmin) {
-            showNotify('❌ Недостаточно прав для установки', 'error');
-            return;
-        }
-
-        try {
-            showLoading(createBtn, installLoading, installText, 'Установка...');
-            //debugLog('Попытка установки робота...');
-            
-            const params = {
-                CODE: robot.code,
-                HANDLER: robot.handler.trim(),
-                AUTH_USER_ID: 1,
-                NAME: robot.name,
-                PROPERTIES: {
-                    task_id: { Name: 'ID задачи', Type: 'int', Required: 'Y' },
-                    entity_type: { 
-                        Name: 'Тип сущности', 
-                        Type: 'select', 
-                        Required: 'Y', 
-                        Options: { 
-                            lead: 'Лид', 
-                            contact: 'Контакт', 
-                            company: 'Компания', 
-                            deal: 'Сделка', 
-                            smart_process: 'Смарт-процесс' 
-                        }
-                    },
-                    entity_id: { Name: 'ID сущности', Type: 'int', Required: 'Y' },
-                    field_code: { Name: 'Код поля для файлов', Type: 'string', Required: 'Y' },
-                    smart_process_id: { Name: 'ID типа смарт-процесса', Type: 'int', Required: 'N' }
-                },
-                RETURN_PROPERTIES: {
-                    success: { Name: 'Успешно', Type: 'bool' },
-                    files_count: { Name: 'Кол-во файлов', Type: 'int' },
-                    files_ids: { Name: 'ID файлов', Type: 'string' },
-                    text_result: { Name: 'Текст', Type: 'string' },
-                    message: { Name: 'Сообщение', Type: 'string' }
-                }
+            const robot = {
+                code: 'robot_task_result_to_entity',
+                name: 'Записать результат задачи в сущность (LeadSpace)',
+                handler: 'https://app.lead-space.ru/robot_find_file/TaskResultToEntity.php'
             };
 
-            //debugLog('Параметры для установки:', params);
-            
-            const result = await callMethod('bizproc.robot.add', params);
-            //debugLog('Результат установки:', result.data());
-            
-            showNotify('✅ Робот успешно установлен');
-            
-            isInstalled = true;
-            updateStatus('installed', 'Установлен');
-            window.location.reload();
-            
-        } catch (error) {
-            console.error('Детали ошибки установки:', error);
-            //debugLog('Ошибка установки:', error);
-            
-            if (error.message.includes('METHOD_NOT_FOUND')) {
-                showNotify('❌ Метод bizproc.robot.add недоступен. Проверьте тариф Bitrix24 и права доступа', 'error');
-            } else if (error.message.includes('ACCESS_DENIED')) {
-                showNotify('❌ Доступ запрещен. Проверьте права на создание роботов', 'error');
-            } else {
-                showNotify('❌ Ошибка установки: ' + error.message, 'error');
-            }
-        } finally {
-            hideLoading(createBtn, installLoading, installText, '➕ Установить');
-        }
-    });
+            const statusEl = document.getElementById('status-task');
+            const createBtn = document.getElementById('createTaskResultButton');
+            const deleteBtn = document.getElementById('deleteTaskResultButton');
+            const listBtn = document.getElementById('ListRobots');
+            const checkBtn = document.getElementById('checkStatus');
+            const installLoading = document.getElementById('install-loading');
+            const installText = document.getElementById('install-text');
+            const deleteLoading = document.getElementById('delete-loading');
+            const deleteText = document.getElementById('delete-text');
 
-    // Удалить робота
-    deleteBtn.addEventListener('click', async function() {
-        if (!isAdmin) {
-            showNotify('❌ Недостаточно прав для удаления', 'error');
-            return;
-        }
+            let isAdmin = false;
+            let isInstalled = false;
 
-        if (!confirm('Вы уверены, что хотите удалить робота?')) {
-            return;
-        }
-
-        try {
-            showLoading(deleteBtn, deleteLoading, deleteText, 'Удаление...');
-            //debugLog('Попытка удаления робота...');
-            
-            const result = await callMethod('bizproc.robot.delete', { CODE: robot.code });
-            //debugLog('Результат удаления:', result.data());
-            
-            showNotify('✅ Робот успешно удалён');
-            isInstalled = false;
-            updateStatus('not-installed', 'Не установлен');
-            window.location.reload();
-            
-        } catch (error) {
-            console.error('Ошибка удаления:', error);
-            //debugLog('Ошибка удаления:', error);
-            showNotify('❌ Ошибка удаления: ' + error.message, 'error');
-        } finally {
-            hideLoading(deleteBtn, deleteLoading, deleteText, '❌ Удалить');
-        }
-    });
-
-    // Показать список роботов
-    listBtn.addEventListener('click', async function() {
-        try {
-            //debugLog('Попытка получения списка роботов...');
-            // Попробуем несколько методов для получения информации о роботах
-            let message = '';
-            
-            try {
-                const result = await callMethod('bizproc.robot.list');
-                const robots = result.data();
-                //debugLog('Список роботов через bizproc.robot.list:', robots);
-                message = robots.length ? 
-                    'Установленные роботы через bizproc.robot.list:\n' + robots.join('\n') : 
-                    'Нет установленных роботов (bizproc.robot.list)';
-            } catch (robotListError) {
-                //debugLog('bizproc.robot.list недоступен:', robotListError);
-                message = 'Метод bizproc.robot.list недоступен.\n';
-                
-                // Попробуем альтернативные методы
-                try {
-                    const activitiesResult = await callMethod('bizproc.activity.list');
-                    const activities = activitiesResult.data();
-                    message += `Найдено активностей бизнес-процессов: ${activities.length}`;
-                    //debugLog('Доступные активности:', activities);
-                } catch (activitiesError) {
-                    //debugLog('bizproc.activity.list тоже недоступен:', activitiesError);
-                    message += 'Альтернативные методы тоже недоступны.';
+            // Функция для логирования отладочной информации
+            function debugLog(message, data = null) {
+                // console.log(message, data);
+                const debugContent = document.getElementById('debugContent');
+                if (debugContent) {
+                    const debugInfo = document.getElementById('debugInfo');
+                    debugInfo.style.display = 'block';
+                    debugContent.innerHTML += `<div>${new Date().toLocaleTimeString()}: ${message}</div>`;
+                    if (data) {
+                        debugContent.innerHTML += `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+                    }
                 }
             }
-            
-            showNotify(message);
-            
-        } catch (error) {
-            //debugLog('Ошибка получения списка:', error);
-            showNotify('❌ Ошибка получения списка: ' + error.message, 'error');
-        }
-    });
 
-    // Проверить статус
-    checkBtn.addEventListener('click', checkStatus);
+            // Основная функция инициализации
+            async function initApp() {
+                try {
+                    // Проверяем, доступен ли BX24
+                    if (typeof BX24 === 'undefined') {
+                        updateStatus('error', 'Bitrix24 API не загружен');
+                        disableButtons();
+                        showNotify('❌ Приложение должно запускаться внутри Bitrix24', 'error');
+                        return;
+                    }
 
-    // Вспомогательные функции
-    function callMethod(method, params = {}) {
-        return new Promise((resolve, reject) => {
-            debugLog(`Вызов метода: ${method}`, params);
-            BX24.callMethod(method, params, function(result) {
-                if (result.error()) {
-                    const errorMsg = result.error();
-                    debugLog(`Ошибка метода ${method}:`, errorMsg);
-                    reject(new Error(errorMsg));
-                } else {
-                    debugLog(`Успешный ответ ${method}:`, result.data());
-                    resolve(result);
+                    //debugLog('Инициализация Bitrix24 API...');
+                    // Инициализируем BX24
+                    await initBX24();
+
+                    // Проверяем права администратора
+                    isAdmin = await checkPermissions();
+                    //debugLog('Права администратора:', isAdmin);
+
+                    if (!isAdmin) {
+                        updateStatus('error', 'Требуются права администратора');
+                        disableButtons();
+                        return;
+                    }
+
+                    // Проверяем статус робота
+                    await checkStatus();
+
+                } catch (error) {
+                    console.error('Ошибка инициализации:', error);
+                    //debugLog('Ошибка инициализации:', error);
+                    updateStatus('error', 'Ошибка загрузки');
+                    showNotify('❌ Ошибка инициализации: ' + error.message, 'error');
+                }
+            }
+
+            // Инициализация BX24
+            function initBX24() {
+                return new Promise((resolve, reject) => {
+                    BX24.init(function () {
+                        //debugLog('BX24 инициализирован успешно');
+                        resolve();
+                    });
+                });
+            }
+
+            // Проверка прав доступа
+            async function checkPermissions() {
+                try {
+                    const result = await callMethod('profile');
+                    const user = result.data();
+                    //debugLog('Профиль пользователя:', user);
+                    return user.ADMIN;
+                } catch (error) {
+                    console.error('Ошибка проверки прав:', error);
+                    //debugLog('Ошибка проверки прав:', error);
+                    return false;
+                }
+            }
+
+            // Проверка доступных методов
+            async function checkAvailableMethods() {
+                try {
+                    //debugLog('Проверка доступных методов...');
+
+                    // Получаем информацию о портале
+                    try {
+                        const appInfo = await callMethod('app.info');
+                        //debugLog('Информация о приложении:', appInfo.data());
+                    } catch (e) {
+                        //debugLog('app.info недоступен:', e.message);
+                    }
+
+                    // Проверяем версию Bitrix24
+                    try {
+                        const portalInfo = await callMethod('user.current');
+                        //debugLog('Информация о пользователе:', portalInfo.data());
+                    } catch (e) {
+                        //debugLog('user.current недоступен:', e.message);
+                    }
+
+                    // Проверяем доступность методов бизнес-процессов
+                    try {
+                        const methods = ['bizproc.robot.list', 'bizproc.robot.add', 'bizproc.activity.list'];
+                        for (const method of methods) {
+                            try {
+                                await callMethod(method, {});
+                                debugLog(`Метод ${method} доступен`);
+                            } catch (e) {
+                                debugLog(`Метод ${method} недоступен:`, e.message);
+                            }
+                        }
+                    } catch (e) {
+                        //debugLog('Ошибка проверки методов:', e);
+                    }
+
+                } catch (error) {
+                    //debugLog('Не удалось получить дополнительную информацию:', error);
+                }
+            }
+
+            // Проверка статуса робота
+            async function checkStatus() {
+                try {
+                    updateStatus('checking', 'Проверка...');
+                    //debugLog('Проверка статуса робота...');
+
+                    // Сначала попробуем получить информацию о правах и методах
+                    await checkAvailableMethods();
+
+                    const result = await callMethod('bizproc.robot.list');
+                    const robots = result.data();
+                    //debugLog('Список установленных роботов:', robots);
+                    isInstalled = robots.includes(robot.code);
+
+                    updateStatus(isInstalled ? 'installed' : 'not-installed',
+                        isInstalled ? 'Установлен' : 'Не установлен');
+
+                    enableButtons();
+
+                } catch (error) {
+                    console.error('Ошибка проверки статуса:', error);
+                    //debugLog('Ошибка проверки статуса:', error);
+
+                    // Попробуем альтернативный способ проверки
+                    await checkStatusAlternative();
+                }
+            }
+
+            // Альтернативная проверка статуса
+            async function checkStatusAlternative() {
+                try {
+                    updateStatus('checking', 'Альтернативная проверка...');
+                    //debugLog('Попытка альтернативной проверки...');
+
+                    // Попробуем получить список через bizproc.activity.list
+                    try {
+                        const result = await callMethod('bizproc.activity.list', {
+                            filter: { 'TYPE': 'RobotActivity' }
+                        });
+                        //debugLog('Доступные активности:', result.data());
+                    } catch (activityError) {
+                        //debugLog('bizproc.activity.list тоже недоступен:', activityError);
+                    }
+
+                    // Или попробуем другой подход - создать тестовый запрос
+                    isInstalled = false; // По умолчанию считаем не установленным
+                    updateStatus('not-installed', 'Статус неизвестен (используйте установку)');
+                    enableButtons();
+
+                } catch (alternativeError) {
+                    console.error('Альтернативная проверка тоже не удалась:', alternativeError);
+                    //debugLog('Альтернативная проверка не удалась:', alternativeError);
+                    updateStatus('error', 'Ошибка проверки методов');
+                    showNotify('❌ Методы работы с роботами недоступны. Возможно, требуется другой тариф или версия Bitrix24', 'error');
+                    enableButtons(); // Позволим попробовать установку
+                }
+            }
+
+            // Установить робота
+            createBtn.addEventListener('click', async function () {
+                if (!isAdmin) {
+                    showNotify('❌ Недостаточно прав для установки', 'error');
+                    return;
+                }
+
+                try {
+                    showLoading(createBtn, installLoading, installText, 'Установка...');
+                    //debugLog('Попытка установки робота...');
+
+                    const params = {
+                        CODE: robot.code,
+                        HANDLER: robot.handler.trim(),
+                        AUTH_USER_ID: 1,
+                        NAME: robot.name,
+                        PROPERTIES: {
+                            task_id: { Name: 'ID задачи', Type: 'int', Required: 'Y' },
+                            entity_type: {
+                                Name: 'Тип сущности',
+                                Type: 'select',
+                                Required: 'Y',
+                                Options: {
+                                    lead: 'Лид',
+                                    contact: 'Контакт',
+                                    company: 'Компания',
+                                    deal: 'Сделка',
+                                    smart_process: 'Смарт-процесс'
+                                }
+                            },
+                            entity_id: { Name: 'ID сущности', Type: 'int', Required: 'Y' },
+                            field_code: { Name: 'Код поля для файлов', Type: 'string', Required: 'Y' },
+                            smart_process_id: { Name: 'ID типа смарт-процесса', Type: 'int', Required: 'N' }
+                        },
+                        RETURN_PROPERTIES: {
+                            success: { Name: 'Успешно', Type: 'bool' },
+                            files_count: { Name: 'Кол-во файлов', Type: 'int' },
+                            files_ids: { Name: 'ID файлов', Type: 'string' },
+                            text_result: { Name: 'Текст', Type: 'string' },
+                            message: { Name: 'Сообщение', Type: 'string' }
+                        }
+                    };
+
+                    //debugLog('Параметры для установки:', params);
+
+                    const result = await callMethod('bizproc.robot.add', params);
+                    //debugLog('Результат установки:', result.data());
+
+                    showNotify('✅ Робот успешно установлен');
+
+                    isInstalled = true;
+                    updateStatus('installed', 'Установлен');
+                    window.location.reload();
+
+                } catch (error) {
+                    console.error('Детали ошибки установки:', error);
+                    //debugLog('Ошибка установки:', error);
+
+                    if (error.message.includes('METHOD_NOT_FOUND')) {
+                        showNotify('❌ Метод bizproc.robot.add недоступен. Проверьте тариф Bitrix24 и права доступа', 'error');
+                    } else if (error.message.includes('ACCESS_DENIED')) {
+                        showNotify('❌ Доступ запрещен. Проверьте права на создание роботов', 'error');
+                    } else {
+                        showNotify('❌ Ошибка установки: ' + error.message, 'error');
+                    }
+                } finally {
+                    hideLoading(createBtn, installLoading, installText, '➕ Установить');
                 }
             });
+
+            // Удалить робота
+            deleteBtn.addEventListener('click', async function () {
+                if (!isAdmin) {
+                    showNotify('❌ Недостаточно прав для удаления', 'error');
+                    return;
+                }
+
+                if (!confirm('Вы уверены, что хотите удалить робота?')) {
+                    return;
+                }
+
+                try {
+                    showLoading(deleteBtn, deleteLoading, deleteText, 'Удаление...');
+                    //debugLog('Попытка удаления робота...');
+
+                    const result = await callMethod('bizproc.robot.delete', { CODE: robot.code });
+                    //debugLog('Результат удаления:', result.data());
+
+                    showNotify('✅ Робот успешно удалён');
+                    isInstalled = false;
+                    updateStatus('not-installed', 'Не установлен');
+                    window.location.reload();
+
+                } catch (error) {
+                    console.error('Ошибка удаления:', error);
+                    //debugLog('Ошибка удаления:', error);
+                    showNotify('❌ Ошибка удаления: ' + error.message, 'error');
+                } finally {
+                    hideLoading(deleteBtn, deleteLoading, deleteText, '❌ Удалить');
+                }
+            });
+
+            // Показать список роботов
+            listBtn.addEventListener('click', async function () {
+                try {
+                    //debugLog('Попытка получения списка роботов...');
+                    // Попробуем несколько методов для получения информации о роботах
+                    let message = '';
+
+                    try {
+                        const result = await callMethod('bizproc.robot.list');
+                        const robots = result.data();
+                        //debugLog('Список роботов через bizproc.robot.list:', robots);
+                        message = robots.length ?
+                            'Установленные роботы через bizproc.robot.list:\n' + robots.join('\n') :
+                            'Нет установленных роботов (bizproc.robot.list)';
+                    } catch (robotListError) {
+                        //debugLog('bizproc.robot.list недоступен:', robotListError);
+                        message = 'Метод bizproc.robot.list недоступен.\n';
+
+                        // Попробуем альтернативные методы
+                        try {
+                            const activitiesResult = await callMethod('bizproc.activity.list');
+                            const activities = activitiesResult.data();
+                            message += `Найдено активностей бизнес-процессов: ${activities.length}`;
+                            //debugLog('Доступные активности:', activities);
+                        } catch (activitiesError) {
+                            //debugLog('bizproc.activity.list тоже недоступен:', activitiesError);
+                            message += 'Альтернативные методы тоже недоступны.';
+                        }
+                    }
+
+                    showNotify(message);
+
+                } catch (error) {
+                    //debugLog('Ошибка получения списка:', error);
+                    showNotify('❌ Ошибка получения списка: ' + error.message, 'error');
+                }
+            });
+
+            // Проверить статус
+            checkBtn.addEventListener('click', checkStatus);
+
+            // Вспомогательные функции
+            function callMethod(method, params = {}) {
+                return new Promise((resolve, reject) => {
+                    debugLog(`Вызов метода: ${method}`, params);
+                    BX24.callMethod(method, params, function (result) {
+                        if (result.error()) {
+                            const errorMsg = result.error();
+                            debugLog(`Ошибка метода ${method}:`, errorMsg);
+                            reject(new Error(errorMsg));
+                        } else {
+                            debugLog(`Успешный ответ ${method}:`, result.data());
+                            resolve(result);
+                        }
+                    });
+                });
+            }
+
+            function updateStatus(type, text) {
+                if (statusEl) {
+                    statusEl.textContent = text;
+                    statusEl.className = 'robot-status ' + type;
+                }
+            }
+
+            function enableButtons() {
+                createBtn.disabled = false;
+                deleteBtn.disabled = false;
+                createBtn.style.opacity = '1';
+                deleteBtn.style.opacity = '1';
+
+                if (isInstalled) {
+                    createBtn.disabled = true;
+                    createBtn.style.opacity = '0.6';
+                } else {
+                    deleteBtn.disabled = true;
+                    deleteBtn.style.opacity = '0.6';
+                }
+            }
+
+            function disableButtons() {
+                createBtn.disabled = true;
+                deleteBtn.disabled = true;
+                createBtn.style.opacity = '0.6';
+                deleteBtn.style.opacity = '0.6';
+            }
+
+            function showLoading(button, loadingEl, textEl, loadingText) {
+                button.disabled = true;
+                if (loadingEl) loadingEl.style.display = 'inline-block';
+                if (textEl) textEl.textContent = loadingText;
+            }
+
+            function hideLoading(button, loadingEl, textEl, originalText) {
+                button.disabled = false;
+                if (loadingEl) loadingEl.style.display = 'none';
+                if (textEl) textEl.textContent = originalText;
+            }
+
+            function showNotify(message, type = 'success') {
+                // Простая замена уведомлений BX24 для совместимости
+                if (typeof BX24 !== 'undefined' && BX24.showNotify) {
+                    BX24.showNotify(message, type, 5000);
+                } else {
+                    // Fallback для случаев, когда BX24.showNotify недоступен
+                    alert(message);
+                }
+            }
+
+            // Запускаем приложение
+            initApp();
         });
-    }
-
-    function updateStatus(type, text) {
-        if (statusEl) {
-            statusEl.textContent = text;
-            statusEl.className = 'robot-status ' + type;
-        }
-    }
-
-    function enableButtons() {
-        createBtn.disabled = false;
-        deleteBtn.disabled = false;
-        createBtn.style.opacity = '1';
-        deleteBtn.style.opacity = '1';
-        
-        if (isInstalled) {
-            createBtn.disabled = true;
-            createBtn.style.opacity = '0.6';
-        } else {
-            deleteBtn.disabled = true;
-            deleteBtn.style.opacity = '0.6';
-        }
-    }
-
-    function disableButtons() {
-        createBtn.disabled = true;
-        deleteBtn.disabled = true;
-        createBtn.style.opacity = '0.6';
-        deleteBtn.style.opacity = '0.6';
-    }
-
-    function showLoading(button, loadingEl, textEl, loadingText) {
-        button.disabled = true;
-        if (loadingEl) loadingEl.style.display = 'inline-block';
-        if (textEl) textEl.textContent = loadingText;
-    }
-
-    function hideLoading(button, loadingEl, textEl, originalText) {
-        button.disabled = false;
-        if (loadingEl) loadingEl.style.display = 'none';
-        if (textEl) textEl.textContent = originalText;
-    }
-
-    function showNotify(message, type = 'success') {
-        // Простая замена уведомлений BX24 для совместимости
-        if (typeof BX24 !== 'undefined' && BX24.showNotify) {
-            BX24.showNotify(message, type, 5000);
-        } else {
-            // Fallback для случаев, когда BX24.showNotify недоступен
-            alert(message);
-        }
-    }
-
-    // Запускаем приложение
-    initApp();
-});
     </script>
 </body>
+
 </html>
